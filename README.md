@@ -20,7 +20,7 @@ QR Generator API is a project developed with Spring Boot to generate QR codes in
 
 1. Clone this repository:
    ```bash
-   git clone https://github.com/yourusername/qr-generator.git
+   git clone https://github.com/iAlfredoAlas/qr-generator.git
    cd qr-generator
 
 2. Configure the `.env` file with your database credentials:
@@ -95,7 +95,7 @@ QR Generator API es un proyecto desarrollado con Spring Boot para generar códig
 
 1. Clona este repositorio:
    ```bash
-   git clone https://github.com/tuusuario/qr-generator.git
+   git clone https://github.com/iAlfredoAlas/qr-generator.git
    cd qr-generator
    
 2. Configura el archivo `.env` con tus credenciales de base de datos:

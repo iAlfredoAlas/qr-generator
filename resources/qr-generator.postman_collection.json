@@ -1,0 +1,89 @@
+{
+	"info": {
+		"_postman_id": "57277571-72a0-4cde-86df-ed2dd6d37b70",
+		"name": "qr-generator",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25094058"
+	},
+	"item": [
+		{
+			"name": "get-from-db",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/qr/from-db/6",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"qr",
+						"from-db",
+						"6"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "post-from-input",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"Name\": \"John Doe\",\r\n    \"Email\": \"john.doe@example.com\",\r\n    \"Phone\": \"1234567890\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/qr/from-input",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"qr",
+						"from-input"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "post-from-text",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "https://utilsdev.biz",
+					"options": {
+						"raw": {
+							"language": "text"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/qr/from-text",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"qr",
+						"from-text"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

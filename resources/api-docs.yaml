@@ -1,0 +1,115 @@
+openapi: 3.0.1
+info:
+  title: QR Generator API
+  description: 'API para generar códigos QR con diferentes métodos de obtención de
+    datos. '
+  version: "1.0"
+servers:
+- url: http://localhost:8080
+  description: Generated server url
+paths:
+  /qr/from-text:
+    post:
+      tags:
+      - qr-data-controller
+      summary: Generar código QR desde texto o URL
+      description: Recibe un texto o una URL en el cuerpo de la solicitud y genera
+        un código QR con ese contenido.
+      operationId: generateQrFromText
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+        required: true
+      responses:
+        "200":
+          description: QR generado correctamente
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  type: string
+                  format: byte
+        "400":
+          description: Solicitud inválida. Asegúrate de enviar un texto o URL válido
+            en el cuerpo de la solicitud.
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  type: string
+                  format: byte
+  /qr/from-input:
+    post:
+      tags:
+      - qr-data-controller
+      summary: Generar código QR desde datos ingresados por el usuario
+      description: "Recibe datos clave-valor enviados por el usuario, los convierte\
+        \ en formato JSON y genera un código QR basado en esa información."
+      operationId: generateQrFromInput
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties:
+                type: string
+        required: true
+      responses:
+        "200":
+          description: QR generado correctamente
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  type: string
+                  format: byte
+        "400":
+          description: Solicitud inválida. Asegúrate de enviar un JSON válido con
+            pares clave-valor.
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  type: string
+                  format: byte
+  /qr/from-db/{id}:
+    get:
+      tags:
+      - qr-data-controller
+      summary: Generar código QR desde la base de datos
+      description: Obtiene datos de la base de datos por su ID y genera un código
+        QR con la información en formato JSON.
+      operationId: generateQrFromDb
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: QR generado correctamente
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  type: string
+                  format: byte
+        "404":
+          description: Datos no encontrados
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  type: string
+                  format: byte
+components: {}

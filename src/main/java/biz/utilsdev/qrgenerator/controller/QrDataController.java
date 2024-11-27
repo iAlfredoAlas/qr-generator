@@ -55,4 +55,11 @@ public class QrDataController {
         return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.IMAGE_PNG).body(qr);
     }
 
+    // Tercera forma: Generar QR con texto o URL
+    @PostMapping("/from-text")
+    public ResponseEntity<byte[]> generateQrFromText(@RequestBody String text) throws Exception {
+        byte[] qr = qrDataService.generateQr(text);
+        return ResponseEntity.ok().contentType(MediaType.IMAGE_PNG).body(qr);
+    }
+
 }

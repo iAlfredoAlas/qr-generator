@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import biz.utilsdev.qrgenerator.repository.IQrDataRepository;
 import biz.utilsdev.qrgenerator.service.QrDataService;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Map;
 
@@ -39,7 +40,7 @@ public class QrDataController {
     public ResponseEntity<byte[]> generateQrFromDb(@PathVariable Long id) throws Exception {
 
         QrData qrData = iQrDataRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Data not found"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Data not found"));
 
         // Convierte los datos a JSON
         ObjectMapper objectMapper = new ObjectMapper();

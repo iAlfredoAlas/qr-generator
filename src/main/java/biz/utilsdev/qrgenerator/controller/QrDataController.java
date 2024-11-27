@@ -5,39 +5,54 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import biz.utilsdev.qrgenerator.repository.IQrDataRepository;
 import biz.utilsdev.qrgenerator.service.QrDataService;
+
+import java.util.Map;
 
 @RestController
 @RequestMapping("/qr")
 public class QrDataController {
 
-	private final IQrDataRepository iQrDataRepository;
-	private final QrDataService qrDataService;
-	
-	public QrDataController(IQrDataRepository qrDataRepository, QrDataService qrDataService) {
-		this.iQrDataRepository = qrDataRepository;
-		this.qrDataService = qrDataService;
-	}
+    private final IQrDataRepository iQrDataRepository;
+    private final QrDataService qrDataService;
 
-	@GetMapping("from-db/{id}")
-	public ResponseEntity<byte[]> generateQrFromDb(@PathVariable Long id) throws Exception {
-		QrData qrData = iQrDataRepository.findById(id)
-				.orElseThrow(() -> new RuntimeException("Data not found"));
+    public QrDataController(IQrDataRepository qrDataRepository, QrDataService qrDataService) {
+        this.iQrDataRepository = qrDataRepository;
+        this.qrDataService = qrDataService;
+    }
 
-		// Convierte los datos a JSON
-		ObjectMapper objectMapper = new ObjectMapper();
-		String jsonContent = objectMapper.writeValueAsString(qrData);
+    // Primera forma: Generar QR con datos de la BD
+    @GetMapping("from-db/{id}")
+    public ResponseEntity<byte[]> generateQrFromDb(@PathVariable Long id) throws Exception {
 
-		// Genera el QR a partir del JSON
-		byte[] qr = qrDataService.generateQr(jsonContent);
+        QrData qrData = iQrDataRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Data not found"));
 
-		return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.IMAGE_PNG).body(qr);
-	}
+        // Convierte los datos a JSON
+        ObjectMapper objectMapper = new ObjectMapper();
+        String jsonContent = objectMapper.writeValueAsString(qrData);
+
+        // Genera el QR a partir del JSON
+        byte[] qr = qrDataService.generateQr(jsonContent);
+
+        return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.IMAGE_PNG).body(qr);
+    }
+
+    // Segunda forma: Generar QR con datos ingresados por el usuario
+    @PostMapping("/from-input")
+    public ResponseEntity<byte[]> generateQrFromInput(@RequestBody Map<String, String> data) throws Exception {
+
+        // Convierte el mapa en un JSON usando Jackson
+        ObjectMapper objectMapper = new ObjectMapper();
+        String jsonContent = objectMapper.writeValueAsString(data);
+
+        // Genera el QR con el JSON como contenido
+        byte[] qr = qrDataService.generateQr(jsonContent);
+
+        return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.IMAGE_PNG).body(qr);
+    }
 
 }
